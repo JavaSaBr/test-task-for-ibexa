@@ -1,0 +1,14 @@
+[versions]
+groovy = "3.0.5"
+spock = "2.0-M5-groovy-3.0"
+jetbrains = "20.1.0"
+lombok = "1.18.18"
+
+[libraries]
+spock-core = { module = "org.spockframework:spock-core", version.ref = "spock" }
+groovy-all = { module = "org.codehaus.groovy:groovy-all", version.ref = "groovy" }
+jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+
+[bundles]
+spock = ["spock-core"]

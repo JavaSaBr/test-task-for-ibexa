@@ -1,0 +1,70 @@
+
+apply plugin: "groovy"
+apply plugin: "java-library"
+
+sourceCompatibility = JavaVersion.VERSION_15
+targetCompatibility = JavaVersion.VERSION_15
+
+rootProject.version = "0.0.1"
+group = "com.spaceshift"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly libs.jetbrains.annotations
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
+
+    testImplementation libs.bundles.spock
+    testImplementation libs.groovy.all
+
+    testCompileOnly libs.jetbrains.annotations
+    testCompileOnly libs.lombok
+    testAnnotationProcessor libs.lombok
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/main/groovy'
+        }
+    }
+    test {
+        java {
+            srcDirs 'src/test/groovy'
+        }
+    }
+    testFixtures {
+        java {
+            srcDirs 'src/test/groovy'
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+tasks.withType(Test) {
+    maxParallelForks = 2
+    forkEvery = 100
+    jvmArgs += "--enable-preview"
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs += ["--enable-preview", "-parameters"]
+}
+
+tasks.withType(GroovyCompile) {
+    options.forkOptions.jvmArgs += "--enable-preview"
+}
+
+wrapper {
+    gradleVersion = '7.0'
+    distributionType = Wrapper.DistributionType.ALL
+}
